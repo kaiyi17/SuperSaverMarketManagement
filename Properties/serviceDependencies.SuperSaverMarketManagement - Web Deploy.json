@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "ignored": "true",
+      "type": "mssql",
+      "connectionId": "ConnectionStrings:AccountContextConnection"
+    },
+    "mssql3": {
+      "serviceConnectorResourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Web/sites/SuperSaverMarketManagement/providers/Microsoft.ServiceLinker/linkers/ConnectionStringsMarketManagement_4873D15231",
+      "secretStore": "AzureAppSettings",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/portfolio-demo-server/databases/MarketManagement",
+      "type": "mssql.azure",
+      "connectionId": "ConnectionStrings:MarketManagement"
+    }
+  }
+}

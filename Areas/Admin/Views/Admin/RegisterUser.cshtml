@@ -1,0 +1,45 @@
+﻿@model WebApp.Areas.Admin.Models.RegisterUserViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section title {
+
+    <h3>Register Users</h3>
+}
+
+<form asp-action="RegisterUser" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="form-group">
+        <label asp-for="Email">Email</label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Password">Password</label>
+        <input asp-for="Password" type="password" class="form-control" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="SelectedPosition">Position</label>
+        <select asp-for="SelectedPosition"  class="form-control">
+            <option>- Please Select -</option>
+            @foreach (var position in Model.Positions)
+            {
+                <option value="@position.Value">@position.Value</option>
+            }
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3">Register</button>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

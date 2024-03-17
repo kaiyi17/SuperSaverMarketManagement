@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project>
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAEU2kbgsoe0GWjbqEGc+wKwAAAAACAAAAAAAQZgAAAAEAACAAAADGKidJV8S3h336e0bjqGqqrNZ+Dtrr0xDroZR95jb7oQAAAAAOgAAAAAIAACAAAADaiUYi8aoE5tcELzuXA5YsQp4MGqTYNwfwwKnLc8rwpYAAAAB6DBNTa8LDGHSgHTMpuL26KnVNCJgjwMgmA/w8CerfU/Vf0MeFliUV80YKwWGIXiUZd4PZvcwtMunv7Kzg9p8apPEpI0xsmXjnFrNQKFBKmB099BdBUNb7Tq5F3lByrI2lPe4gj9XN2zhuWb314QjIyXrZFxy+KEORAOeKAJFkgUAAAADkv8U+OvPm9UqWXoRppCr801I/jGj+AKwuUmTa06F2iaPCHHsaU7Me1B8UTstqDtaQLeXy5r3EYzeORPIAtpqe</EncryptedPassword>
+    <History>True|2024-03-17T14:20:43.8672017Z;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+  <ItemGroup>
+    <AzureDBConnectionStrings Include="Data Source=portfolio-demo-server.database.windows.net,1433;Initial Catalog=MarketManagement;User ID=sqladmin;Password=Admin@123" />
+    <AzureDBConnectionStrings Include="Data Source=portfolio-demo-server.database.windows.net,1433;Initial Catalog=portfoliodb;User ID=sqladmin;Password=Admin@123" />
+  </ItemGroup>
+</Project>

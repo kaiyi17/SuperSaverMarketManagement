@@ -1,0 +1,114 @@
+﻿@model SalesViewModel;
+@section title{
+	<div class="row">
+		<div class="col-7"><h3>Cashier's Console</h3></div>
+		<div class="col-2"><label for="cashier">Cashier Name:</label></div>
+		<div class="col-3">@*Display Cashier's name here*@
+			@User?.Identity?.Name
+		</div>
+	</div>
+}
+
+<br />
+<div class="row">
+	<div class="col-4">
+		<div class="text-danger" asp-validation-summary="All"></div>
+
+		@*Category selection*@
+		<select asp-for="SelectedCategoryId" class="form-control">
+			<option>- Please Select -</option>
+			@if (Model.Categories != null && Model.Categories.Count() > 0)
+			{
+				@foreach (var cat in Model.Categories)
+				{
+				   <option value="@cat.CategoryId">@cat.Name</option>
+				}
+			}
+		</select>
+		<br />
+		<div id="productsPartial">
+			@*Product List*@
+		</div>
+		<br />
+		<div id="productDetailPartial">
+			@*Product Details*@
+		</div>
+		@*Sales form*@
+		<form method="post" asp-controller="sales" asp-action="sell" id="formSale">
+			<input asp-for="SelectedProductId" type ="hidden" />
+			<div class="form-group">
+				<label asp-for="QuantityToSell"></label>
+				<input asp-for="QuantityToSell" class="form-control" type="number" min="1"/>
+			</div>
+			<br/>
+			<div class="form-group">
+				<input type="submit" class="btn btn-primary" value="Submit" />
+			</div>
+
+		</form>
+	</div>
+	<div class="col">
+		@*List of transactions*@
+		@await Component.InvokeAsync("Transactions","Cashier1")
+	</div>
+</div>
+
+@section Scripts{
+	<script>
+		$(function () {
+			//Initialize the form
+			$("#formSale").hide();
+			$("#selectedProductId").val("");
+
+			//load the products if category is already selected
+			var selectedCategoryId = $("#SelectedCategoryId").val();
+			if (selectedCategoryId > 0) {
+				loadProducts(selectedCategoryId);
+			}
+
+			//Handel category selection
+			$("#SelectedCategoryId").on("change", function () {
+				//call the action method by /products/ProductsByCategoryPartial, which takes a parameter: int categoryId,
+				// so we provide it by { categoryId: $(this).val() }, it will take the value from SelectedCategoryId
+				//then load the view in div productsPartial
+				loadProducts($(this).val())
+			})
+
+			//handle product selection
+			//event delegate added to fatehr element.
+			//利用事件冒泡机制来处理事件的方法，它允许你在父元素上设置监听器来管理子元素的事件。这是基于一个事实：
+			// 在DOM中，事件不仅仅在触发它们的直接元素上发生，而且会向上“冒泡”到父元素，
+			// 除非被明确停止。事件委托的好处之一是可以为尚未存在于页面上的元素绑定事件处理器（这些元素可能是稍后动态添加的）。
+			$('#productsPartial').on('click', '.product-row', function () {
+				//highlight the row selected
+				$('.product-row').removeClass('highlight'); //target all the rows and remove the highlight=> remove the highlight from the previously highlighted row
+				$(this).addClass('highlight');
+
+				//Get the product ID from the "product-id" attribute of the clicked row
+				var productId = $(this).attr('product-id');
+
+				//load the details of the product in partial view
+				$("#productDetailPartial").load("/sales/SellProductPartial", { productId: productId });
+
+				// 重置 QuantityToSell 输入框的值
+				$("#QuantityToSell").val(''); // 设置为空字符串，或者你期望的初始值
+
+				if(productId >0){
+					$("#SelectedProductId").val(productId);
+					$("#formSale").show();
+				}
+				else{
+					$("#selectedProductId").val("");
+					$("#formSale").hide();
+				}
+
+			});
+		});
+
+		function loadProducts(categoryId) {
+			$("#productsPartial").load("/sales/ProductsByCategoryPartial", { categoryId: categoryId });
+			$("#productDetailPartial").html("");
+			$("#formSale").hide();
+		}
+	</script>
+}

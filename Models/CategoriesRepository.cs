@@ -1,0 +1,69 @@
+﻿namespace WebApp.Models
+{
+    public static class CategoriesRepository
+    {
+        private static List<Category> _categories = new List<Category>()
+        {
+            new Category {CategoryId =1, Name ="Baverage", Description = "Baverage"},
+            new Category {CategoryId =2, Name = " Bakery", Description = "Bakery"},
+            new Category {CategoryId =3, Name =" Meat", Description = "Meat"}
+        };
+
+        public static void AddCategory(Category category)
+        {
+            if(_categories != null && _categories.Count >0) 
+            { 
+                var maxId = _categories.Max(x => x.CategoryId);
+                category.CategoryId = maxId + 1;
+            }
+            else
+            {
+                category.CategoryId = 1;
+            }
+            if(_categories == null) _categories = new List<Category>();
+            _categories.Add(category);
+        }
+
+        public static List<Category> GetCategories() => _categories;
+
+        public static Category? GetCategoryById(int categoryId)
+        {
+            var category = _categories.FirstOrDefault(x => x.CategoryId == categoryId);
+
+            if (category != null)
+            //if not null, we will create a copy and return this copy
+            // the caller will never touch the actual data without running any statements
+            //otherwise, if we just return teh category, the caller will be able to update the properties of the catagory, and that affact our inmemory data 
+            {
+                return new Category { CategoryId = category.CategoryId, Name =  category.Name, Description = category.Description};
+            }
+            return null;
+        }
+
+        public static void UpdateCategory(int categoryId, Category category)
+        {
+            if (categoryId != category.CategoryId) return;
+
+            var categoryToUpdate = _categories.FirstOrDefault(x=> x.CategoryId == categoryId);
+            //this is only get the copy of the category, so it will not change/update the one in the inmemtory source. 
+           // var categoryToUpdate = GetCategoryById(categoryId);
+            if (categoryToUpdate != null)
+            {
+                //we can also use automapper to map the properties to properties if we have a lot of properties 
+                categoryToUpdate.Name = category.Name;
+                categoryToUpdate.Description = category.Description;
+            }
+        }
+
+        public static void DeleteCategory(int categoryId)
+        {
+            var category = _categories.FirstOrDefault(x=>x.CategoryId == categoryId);
+            if (category != null)
+            {
+                _categories.Remove(category);
+            }
+        }
+
+
+    }
+}
